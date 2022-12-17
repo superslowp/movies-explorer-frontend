@@ -1,0 +1,118 @@
+.profile__form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: 74px 0 70px 0;
+}
+
+.profile__title {
+    margin: 0;
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 29px;
+    text-align: center;
+    color: #000000;
+}
+
+.profile__fieldset {
+    width: 410px;
+    margin: 0;
+    padding: 123px 0 220px 0;
+    border: none;
+    display: flex;
+    flex-direction: column;
+}
+
+.profile__input-wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.profile__label {
+    font-weight: 500;
+    font-size: 11px;
+    line-height: 13px;
+    color: #000000;
+}
+
+.profile__input {
+    margin: 0;
+    padding: 0;
+    border: none;
+    outline: none;
+    text-align: right;
+    font-size: 11px;
+    line-height: 13px;
+    text-align: right;
+    color: #000000;
+}
+
+.profile__line {
+    width: auto;
+    border-top: 1px #E8E8E8 solid;
+    margin: 16px 0 17px 0;
+}
+
+.profile__submit {
+    margin: 0;
+    padding: 0;
+    border: none;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 16px;
+    text-align: center;
+    color: #000000;
+    background-color: #FFFFFF;
+    width: 410px;
+    margin-top: auto;
+    cursor: pointer;
+    transition: opacity 0.2s ease-in-out;
+}
+
+.profile__submit:hover {
+    opacity: 0.8;
+}
+
+.profile__exit {
+    margin: 0;
+    padding: 0;
+    border: none;
+    font-weight: 500;
+    font-size: 13px;
+    line-height: 16px;
+    text-align: center;
+    color: #EE3465;
+    background-color: #FFFFFF;
+    width: 410px;
+    align-self: center;
+    margin-top: 16px;
+    cursor: pointer;
+    transition: opacity 0.2s ease-in-out;
+}
+
+.profile__exit:hover {
+    opacity: 0.8;
+}
+
+@media screen and (max-width: 1279px) {
+    .profile__form {
+        padding: 236px 0 269px 0;
+    }
+
+    .profile__fieldset {
+        padding: 123px 0 220px 0;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .profile__form {
+        padding: 70px 0 40px 0;
+    }
+
+    .profile__fieldset {
+        width: 260px;
+        padding: 80px 0 379px 0;
+    }
+}

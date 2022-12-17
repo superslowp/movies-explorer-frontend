@@ -1,0 +1,107 @@
+.movie-card {
+    padding: 0;
+    margin: 0;
+    display: flex;
+    background-color: #F9F9F9;
+    min-height: 134px;
+    padding-left: 22px;
+    justify-content: space-between;
+}
+
+.movie-card__info {
+    display: flex;
+    flex-direction: column;
+    padding: 22px 0 22px 0;
+}
+
+.movie-card__title {
+    margin: 0;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 22px;
+    color: #000000;
+}
+
+.movie-card__duration {
+    margin: 0;
+    padding: 13px 0 0 0;
+    font-weight: 400;
+    font-size: 11px;
+    line-height: 13px;
+    color: #A0A0A0;
+}
+
+.movie-card__button {
+    border: none;
+    margin-top: 30px;
+    width: 14px;
+    height: 12px;
+    background-position: center;
+    transition: all 0.2s ease-in-out;
+    cursor: pointer;
+}
+
+.movie-card__button:hover {
+    opacity: 0.8;
+    background: no-repeat url('../../images/like.svg');
+}
+
+.movie-card__button_type_like {
+    background: no-repeat url('../../images/like-gray.svg');
+}
+
+.movie-card__button_type_like-active {
+    background: no-repeat url('../../images/like.svg');
+}
+
+.movie-card__button_type_remove {
+    background: no-repeat url('../../images/remove.svg');
+}
+
+.movie-card__button_type_remove:hover {
+    background: no-repeat url('../../images/remove.svg');
+}
+
+.movie-card__image {
+    width: 220px;
+    height: 122px;
+    padding: 6px 6px 6px 0;
+    border: none;
+}
+
+@media screen and (max-width: 767px) {
+    .movie-card {
+        flex-direction: column;
+        flex-flow: column-reverse;
+        background-color: #F9F9F9;
+        padding-left: 0;
+    }
+
+    .movie-card__image {
+        width: 300px;
+        height: 168px;
+        padding: 0;
+        align-self: center;
+    }
+
+    .movie-card__title {
+        font-size: 12px;
+        line-height: 15px;
+    }
+
+    .movie-card__info {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        padding: 14px 16px 14px 12px;
+    }
+
+    .movie-card__duration {
+        padding: 8px 0 0 0;
+    }
+
+    .movie-card__button {
+        display: flex;
+        margin-top: 2px;
+    }
+}

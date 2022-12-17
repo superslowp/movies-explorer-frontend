@@ -1,0 +1,40 @@
+.navtab {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    list-style: none;
+    background-color: #F5F5F5;
+    max-width: 1280px;
+    height: 66px;
+    padding: 0;
+    margin: 0;
+    gap: 40px;
+}
+
+.navtab__navlink {
+    color: #000000;
+    font-weight: 500;
+    font-size: 13px;
+    line-height: 16px;
+    display: flex;
+    text-decoration-line: underline;
+    transition: opacity 0.2s ease-in-out;
+}
+
+.navtab__navlink:hover {
+    opacity: 0.6;
+}
+
+.navtab__navlink:visited {
+    color: #000000;
+}
+
+@media screen and (max-width: 767px) {
+    .navtab {
+        gap: 24px;        
+    }
+    .navtab__navlink {
+        font-size: 11px;
+    }
+}

@@ -1,0 +1,62 @@
+.AuthNavigation {
+    display: flex;
+    flex-direction: row;
+}
+
+.AuthNavigation__register {
+    display: flex;
+    align-items: center;
+    padding-right: 30px;
+    color: #FFFFFF;
+    text-decoration: none;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 16px;
+    transition: opacity 0.2s ease-in-out;
+}
+
+.AuthNavigation__register:hover {
+    opacity: 0.8;
+}
+
+.AuthNavigation__register:visited {
+    color: #FFFFFF;
+}
+
+.AuthNavigation__login {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    width: 76px;
+    height: 32px;
+    color: #000000;
+    background: #2BE080;
+    border-radius: 3px;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 16px;
+    transition: opacity 0.2s ease-in-out;
+}
+
+.AuthNavigation__login:hover {
+    opacity: 0.6;
+}
+
+.AuthNavigation__login:visited {
+    color: #000000;
+}
+
+
+@media screen and (max-width: 767px) {
+    .AuthNavigation__register {
+        padding-right: 14px;
+    }
+
+    .AuthNavigation__login {
+        width: 54px;
+        height: 26px;
+    }
+}

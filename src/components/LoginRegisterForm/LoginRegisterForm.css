@@ -1,0 +1,114 @@
+.auth-form {
+    padding: 70px 0 0 0;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    width: 396px;
+    height: 528px;
+    box-sizing: content-box;
+    display: flex;
+    flex-direction: column;
+}
+
+.auth-form__logo {
+    height: 38px;
+    height: 38px;
+    align-self: start;
+}
+
+.auth-form__title {
+    margin: 0;
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 29px;
+    padding-top: 46px;
+    margin-bottom: 20px;
+}
+
+.auth-form__fieldset {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: stretch;
+    margin: 0;
+    padding: 0;
+    border: none;
+}
+
+.auth-form__submit {
+    margin: 0;
+    border: none;
+    padding: 0;
+    height: 45px;
+    background: #2BE080;
+    border-radius: 3px;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 17px;
+    text-align: center;
+    color: #FFFFFF;
+    margin-top: auto;
+}
+
+.auth-form__text {
+    margin: 0;
+    padding-top: 16px;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+    text-align: center;
+    color: #A0A0A0;
+}
+
+.auth-form__link {
+    margin: 0;
+    color: #2BE080;
+    transition: opacity 0.2s ease-in-out;
+}
+
+.auth-form__link:hover {
+    opacity: 0.8;
+}
+
+.auth-form__link:visited {
+    color: #2BE080;
+}
+
+@media screen and (max-width: 1279px) {
+    .auth-form__wrapper {
+        padding: 232px 0 232px 0;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .auth-form {
+        height: 694px;
+        width: 260px;
+        padding: 56px 0 0 0;
+    }
+
+    .auth-form__logo {
+        height: 38px;
+        height: 38px;
+        align-self: center;
+    }
+
+    .auth-form__title {
+        align-self: center;
+        font-size: 24px;
+        line-height: 29px;
+        padding-top: 50px;
+        margin-bottom: 60px;
+    }
+
+    .auth-form__submit {
+        font-size: 12px;
+        line-height: 15px;
+    }
+
+    .auth-form__text {
+        padding-top: 14px;
+        font-size: 12px;
+        line-height: 15px;
+    }
+}
