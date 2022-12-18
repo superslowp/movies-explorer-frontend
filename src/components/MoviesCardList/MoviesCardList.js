@@ -6,7 +6,6 @@ import { Cards, SavedCards } from "../../utils/Cards";
 const MoviesCardList = ({ isSavedMovies }) => {
 
     const arr = isSavedMovies ? SavedCards : Cards;
-    const [isMore, setIsMore] = React.useState(true);
 
     return (
         <>        
@@ -25,7 +24,7 @@ const MoviesCardList = ({ isSavedMovies }) => {
                 ))
             }
         </ul>
-        {!isSavedMovies && isMore && <button className="movies-list__more-button">Еще</button>}
+        {!isSavedMovies && <button className="movies-list__more-button">Еще</button>}
         {isSavedMovies && <div className="movie-list__spacer"></div>}        
         </>
     );
