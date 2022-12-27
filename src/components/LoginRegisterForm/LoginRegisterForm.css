@@ -48,7 +48,16 @@
     text-align: center;
     color: #FFFFFF;
     margin-top: auto;
+    cursor: pointer;
 }
+
+.auth-form__submit_disabled {
+   cursor: not-allowed;
+   background: #FFFFFF;
+   color: #A0A0A0;
+   border: 1px solid #A0A0A0;
+}
+
 
 .auth-form__text {
     margin: 0;

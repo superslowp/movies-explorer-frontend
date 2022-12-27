@@ -1,7 +1,23 @@
 import React from "react";
 import "./MovieCard.css";
+import { MOVIES_IMAGE_URL } from "../../utils/constants";
 
-const MovieCard = ({ movieId, isSavedMovies, title, duration, image, isLiked, onButtonClick }) => {
+const MovieCard = ({ _id, movieId, isSavedMovies, title, duration, trailerLink, image, isLiked, handleDeleteMovie, handleAddMovie }) => {
+
+    const imageURL = isSavedMovies ? image : MOVIES_IMAGE_URL+image;
+
+    const handleLike = () => {
+        if (isLiked) {
+            handleDeleteMovie(_id);
+        } else {
+            handleAddMovie(movieId);
+        }
+    }
+
+    const handleDelete = () => {
+        handleDeleteMovie(_id);
+    }
+
     return (
         <li className="movie-card" id={movieId}>
             <div className="movie-card__info">
@@ -11,14 +27,20 @@ const MovieCard = ({ movieId, isSavedMovies, title, duration, image, isLiked, on
                 </div>
                 {!isSavedMovies && <button
                     className={`movie-card__button ${isLiked ? "movie-card__button_type_like-active" : "movie-card__button_type_like"}`}
-                    onClick={onButtonClick}
+                    onClick={handleLike}
                 />}
                 {isSavedMovies && <button
                     className="movie-card__button movie-card__button_type_remove"
-                    onClick={onButtonClick}
+                    onClick={handleDelete}
                 />}
             </div>
-            <img className="movie-card__image" src={image} alt={title} />
+            <a
+                href={trailerLink}
+                target='_blank'
+                rel='noreferrer'
+            >
+                <img className="movie-card__image" src={imageURL} alt={title} />
+            </a>
         </li>
     )
 };

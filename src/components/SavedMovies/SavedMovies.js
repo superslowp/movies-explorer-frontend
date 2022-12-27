@@ -5,15 +5,19 @@ import SearchBar from "../SearchBar/SearchBar";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import Footer from "../Footer/Footer";
 
-const SavedMovies = () => {
+const SavedMovies = ({ moviesList, handleDeleteMovie, handleSearch }) => {
     return (
         <>
             <Header
-                isLoggedIn={true}
+                isLanding={false}
             />
-            <SearchBar />
+            <SearchBar 
+                handleSearch={handleSearch}
+            />
             <MoviesCardList
                 isSavedMovies={true}
+                moviesList={moviesList}
+                handleDeleteMovie={handleDeleteMovie}
             />
             <Footer />
         </>

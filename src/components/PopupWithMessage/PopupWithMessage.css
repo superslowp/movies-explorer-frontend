@@ -1,0 +1,77 @@
+.popup {
+    display: flex;
+    position: fixed;
+    visibility: hidden;
+    background-color: rgba(0, 0, 0, .5);
+    justify-content: center;
+    align-items: center;
+    z-index: 2;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    opacity: 0;
+    transition: visibility 0.2s ease-in, opacity 0.2s linear;
+}
+
+.popup_opened {
+    visibility: visible;
+    opacity: 1;
+}
+
+.popup__container {
+    width: 430px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    border-radius: 10px;
+    background-color: #fff;
+    padding: 0 6px 0 6px;
+    box-sizing: border-box;
+}
+
+.popup__content {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+    max-width: 430px;
+    padding: 40px 15px 40px 15px;
+}
+
+
+.popup__close-button {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    border: 0;
+    padding: 0;
+    cursor: pointer;
+    background: no-repeat url('../../images/remove.svg');
+    background-position: center;
+    background-size: contain;
+    width: 20px;
+    height: 20px;
+    z-index: 3;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.popup__close-button:hover {
+    opacity: .6;
+}
+
+.popup__status-image {
+    width: 80px;
+    height: 80px;
+}
+
+.popup__status-text {
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 29px;
+    text-align: center;
+    color: #000000;
+    margin: 0;
+    color: #000;
+    text-align: center;
+}

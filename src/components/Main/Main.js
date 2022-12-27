@@ -8,10 +8,10 @@ import Portfolio from '../Portfolio/Portfolio';
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
 
-const Main = () => {
+const Main = ({ isLoggedIn }) => {
     return (
         <div className="main">
-            <Header isLoggedIn={false} />
+            <Header isLanding={true} />
             <Promo />
             <NavTab />
             <AboutProject />

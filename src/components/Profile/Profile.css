@@ -37,6 +37,12 @@
     color: #000000;
 }
 
+.profile__label_type_error {
+    margin: 5px 0 0 0;
+    padding: 0;
+    color: #EE3465;
+}
+
 .profile__input {
     margin: 0;
     padding: 0;
@@ -47,6 +53,10 @@
     line-height: 13px;
     text-align: right;
     color: #000000;
+}
+
+.profile__input_color_red {
+    color: #EE3465;
 }
 
 .profile__line {
@@ -69,6 +79,11 @@
     margin-top: auto;
     cursor: pointer;
     transition: opacity 0.2s ease-in-out;
+}
+
+.profile__submit_disabled {
+    cursor: not-allowed;
+    color: #A0A0A0;
 }
 
 .profile__submit:hover {
