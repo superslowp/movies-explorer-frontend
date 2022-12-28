@@ -4,7 +4,7 @@ import CurrentUserContext from '../../contexts/CurrentUserContext';
 import { useFormAndValidation } from '../../hooks/useFormAndValidation';
 import './Profile.css';
 
-const Profile = ({ handleLogout, handleUpdateUser, apiMessage, isError }) => {
+const Profile = ({ isLoggedIn, handleLogout, handleUpdateUser }) => {
 
     const currentUser = React.useContext(CurrentUserContext)
     
@@ -45,7 +45,9 @@ const Profile = ({ handleLogout, handleUpdateUser, apiMessage, isError }) => {
 
     return (
         <>
-            <Header isLanding={false} />
+            <Header 
+                isLoggedIn={isLoggedIn}
+            />
             <form
                 className="profile__form"
                 onSubmit={onSubmit}

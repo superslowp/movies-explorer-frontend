@@ -6,7 +6,7 @@ import Navigation from '../Navigation/Navigation';
 import BurgerMenu from "../BurgerMenu/BurgerMenu";
 import { NavLink } from 'react-router-dom';
 
-const Header = ({ isLanding }) => {
+const Header = ({ isLoggedIn }) => {
 
     const [isMenuOpen, setisMenuOpen] = React.useState(false);
 
@@ -19,16 +19,16 @@ const Header = ({ isLanding }) => {
     }
 
     return (
-        <header className={`header ${isLanding ? 'header_background_gray' : null}`}>
+        <header className={`header ${!isLoggedIn ? 'header_background_gray' : ''}`}>
             <NavLink to="/" className="header__link">
                 <img className="header__logo" src={logo} alt="логотип сайта" />
             </NavLink>       
-            {isLanding && <AuthNavigation />}
-            {!isLanding && <Navigation />}
-            {!isLanding && <NavLink to="/profile" className="header__account-link">
+            {!isLoggedIn && <AuthNavigation />}
+            {isLoggedIn && <Navigation />}
+            {isLoggedIn && <NavLink to="/profile" className="header__account-link">
                 Аккаунт
             </NavLink>}
-            {!isLanding && !isMenuOpen && <button onClick={openMenu} className="header__menu-button" />}
+            {isLoggedIn && !isMenuOpen && <button onClick={openMenu} className="header__menu-button" />}
             <BurgerMenu
                 isVisible={false}
                 onClose={closeMenu}

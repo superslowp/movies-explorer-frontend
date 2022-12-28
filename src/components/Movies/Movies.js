@@ -6,23 +6,38 @@ import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import Footer from "../Footer/Footer";
 import Preloader from "../Preloader/Preloader";
 
-const Movies = ({ isLoading, moviesList, handleSearch, handleDeleteMovie, handleAddMovie }) => {
-
+const Movies = ({ isLoggedIn,
+    isLoading,
+    moviesList,
+    handleSearch,
+    handleDeleteMovie,
+    handleAddMovie,
+    nothingIsFound,
+    showMore,
+    handleGetMoreMovies,
+    onShortsChange,
+    errorText
+}) => {
     return (
         <>
             <Header
-                isLanding={false}
+                isLoggedIn={isLoggedIn}
             />
             <SearchBar
                 handleSearch={handleSearch}
+                onShortsChange={onShortsChange}
             />
-            {isLoading ? 
-                <Preloader/> :
+            {isLoading ?
+                <Preloader /> :
                 <MoviesCardList
                     isSavedMovies={false}
                     moviesList={moviesList}
                     handleDeleteMovie={handleDeleteMovie}
                     handleAddMovie={handleAddMovie}
+                    nothingIsFound={nothingIsFound}
+                    showMore={showMore}
+                    handleGetMoreMovies={handleGetMoreMovies}
+                    errorText={errorText}
                 />
             }
             <Footer />

@@ -1,7 +1,7 @@
 import React from "react";
 import "./SearchBar.css"
 
-const SearchBar = ({ handleSearch }) => {
+const SearchBar = ({ handleSearch, onShortsChange }) => {
 
     const [searchParam, setSearchParam] = React.useState('');
     const [shortFilter, setShortFilter] = React.useState(false);
@@ -11,8 +11,8 @@ const SearchBar = ({ handleSearch }) => {
     }
 
     const onShortFilterChange = (e) => {
-        setShortFilter(e.target.checked);
-        handleSearch(searchParam, e.target.checked);
+        setShortFilter(!shortFilter);
+        onShortsChange(searchParam, !shortFilter);
     }
 
     const submitSearch = (e) => {
@@ -20,16 +20,16 @@ const SearchBar = ({ handleSearch }) => {
         handleSearch(searchParam, shortFilter);
     }
 
-/*    React.useEffect(() => {
-        const shortFilter = JSON.parse(localStorage.getItem('isChecked'))
-        const searchParam = localStorage.getItem('inputValue')
+    React.useEffect(() => {
+        const shortFilter = JSON.parse(localStorage.getItem('shortFilter'))
+        const searchParam = localStorage.getItem('searchParam')
         if (shortFilter) {
             setShortFilter(shortFilter)
         }
         if (searchParam) {
             setSearchParam(searchParam)
         }
-    }, []) */
+    }, []);
 
     return (
         <form

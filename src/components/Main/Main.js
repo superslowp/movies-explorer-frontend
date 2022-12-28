@@ -11,7 +11,9 @@ import Footer from '../Footer/Footer';
 const Main = ({ isLoggedIn }) => {
     return (
         <div className="main">
-            <Header isLanding={true} />
+            <Header 
+                isLoggedIn={isLoggedIn} 
+            />
             <Promo />
             <NavTab />
             <AboutProject />
