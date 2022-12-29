@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import './Register.css';
 import { useFormAndValidation } from '../../hooks/useFormAndValidation';
 import LoginRegisterForm from '../LoginRegisterForm/LoginRegisterForm';

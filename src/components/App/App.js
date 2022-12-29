@@ -382,10 +382,12 @@ function App() {
     };
 
     checkTokenFirst();
-    getMoviesFirst();
-    const films = JSON.parse(localStorage.getItem('moviesListFiltered'));
-    if (films) {
-      onGetFilteredMovies(films);
+    if (isLoggedIn) {
+      getMoviesFirst();
+      const films = JSON.parse(localStorage.getItem('moviesListFiltered'));
+      if (films) {
+        onGetFilteredMovies(films);
+      }      
     }
     setTimeout(() => {
       setIsReady(true);
