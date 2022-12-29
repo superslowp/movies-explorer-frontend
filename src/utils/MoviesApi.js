@@ -21,7 +21,7 @@ class MoviesApi {
             headers: this._headers
         })
         return this._handleResponse(data);
-    }  
+    }
 }
 
 const moviesApi = new MoviesApi({

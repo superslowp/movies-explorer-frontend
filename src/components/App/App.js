@@ -183,24 +183,24 @@ function App() {
       const newMyMoviesFiltered = myMoviesFiltered.filter((movie) => {
         return movie._id !== _id;
       });
-      console.log(myMovies);
-      console.log(newMyMovies);
       setMyMovies(newMyMovies);
       setMyMoviesFiltered(newMyMoviesFiltered);
+      return true;
     } catch (err) {
       handleError(MOVIE_DELETE_ERROR);
       console.log(err);
+      return false;
     }
   }
 
   const handleGetMovies = async () => {
     try {
-      const movies = await moviesApi.getMovies();      
+      const movies = await moviesApi.getMovies();
       localStorage.setItem('beatFilmsList', JSON.stringify(movies))
       return movies;
     } catch (err) {
-      setErrorText(API_ERROR);
       console.log(err);
+      return false;
     }
   }
 
@@ -300,7 +300,7 @@ function App() {
     return filteredByShort;
   }
 
-  const handleSearch = async (searchParam, shortFilter) => {    
+  const handleSearch = async (searchParam, shortFilter) => {
     setErrorText(NOTHING_FOUND_ERROR);
     localStorage.setItem('searchParam', searchParam);
     localStorage.setItem('shortFilter', shortFilter);
@@ -318,6 +318,13 @@ function App() {
         setIsLoading(false);
         return;
       }
+    }
+
+    if (!movies) {
+      setErrorText(API_ERROR);
+      setNothingIsFound(true);
+      setIsLoading(false);
+      return;
     }
     const filteredResult = filterMovies(movies, searchParam, shortFilter);
     const filteredResultWithLikes = populateWithLikes(filteredResult);

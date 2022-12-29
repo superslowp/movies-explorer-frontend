@@ -14,8 +14,9 @@ const MovieCard = ({ card, isSavedMovies, handleDeleteMovie, handleAddMovie }) =
     const handleLike = async () => {
         if (card.isLiked) {
             try {
-                await handleDeleteMovie(cardId);
-                setCardIsLiked(!cardIsLiked);
+                if (await handleDeleteMovie(cardId)) {
+                    setCardIsLiked(!cardIsLiked);
+                }
             } catch (err) {                
             }
         } else {            

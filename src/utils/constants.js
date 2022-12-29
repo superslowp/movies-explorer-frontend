@@ -1,7 +1,7 @@
 export const BASE_URL = "https://api.slowmovies.nomoredomains.club";
 //export const BASE_URL = "http://127.0.0.1:3000";
 
-export const MOVIES_BASE_URL = "https://api.nomoreparties.co/beatfiflm-movies";
+export const MOVIES_BASE_URL = "https://api.nomoreparties.co/beatfilm-movies";
 export const MOVIES_IMAGE_URL = "https://api.nomoreparties.co/";
 
 export const HEADERS = {    
