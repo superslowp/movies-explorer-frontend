@@ -7,6 +7,7 @@ import Footer from "../Footer/Footer";
 
 const SavedMovies = ({ isLoggedIn,
     moviesList,
+    myMoviesFiltered,
     handleDeleteMovie,
     handleSearch,
     nothingIsFound,
@@ -24,7 +25,7 @@ const SavedMovies = ({ isLoggedIn,
             />
             <MoviesCardList
                 isSavedMovies={true}
-                moviesList={moviesList}
+                moviesList={myMoviesFiltered}
                 handleDeleteMovie={handleDeleteMovie}
                 nothingIsFound={nothingIsFound}
                 errorText={errorText}

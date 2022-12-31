@@ -1,7 +1,7 @@
 import React from "react";
 import "./SearchBar.css"
 
-const SearchBar = ({ handleSearch, onShortsChange }) => {
+const SearchBar = ({ handleSearch, onShortsChange, restoreValues }) => {
 
     const [searchParam, setSearchParam] = React.useState('');
     const [shortFilter, setShortFilter] = React.useState(false);
@@ -21,13 +21,15 @@ const SearchBar = ({ handleSearch, onShortsChange }) => {
     }
 
     React.useEffect(() => {
-        const shortFilter = JSON.parse(localStorage.getItem('shortFilter'))
-        const searchParam = localStorage.getItem('searchParam')
-        if (shortFilter) {
-            setShortFilter(shortFilter)
-        }
-        if (searchParam) {
-            setSearchParam(searchParam)
+        if (restoreValues) {
+            const shortFilter = JSON.parse(localStorage.getItem('shortFilter'))
+            const searchParam = localStorage.getItem('searchParam')
+            if (shortFilter) {
+                setShortFilter(shortFilter)
+            }
+            if (searchParam) {
+                setSearchParam(searchParam)
+            }
         }
     }, []);
 

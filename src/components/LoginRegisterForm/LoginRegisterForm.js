@@ -25,8 +25,9 @@ const LoginRegisterForm = ({
             <form
                 className="auth-form"
                 onSubmit={handleFormSubmit}
-            >
-                <img className="auth-form__logo" src={logo} alt="логотип " />
+            >   <NavLink to="/" className="auth-form__link">
+                    <img className="auth-form__logo" src={logo} alt="логотип " />
+                </NavLink>
                 <h1 className="auth-form__title">{formTitle}</h1>
                 <fieldset className="auth-form__fieldset">
                     {children}

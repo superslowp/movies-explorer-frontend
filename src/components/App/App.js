@@ -27,7 +27,10 @@ import {
   EMPTY_SEARCH_MESSAGE,
   MOVIES_IMAGE_URL,
   API_ERROR,
-  NOTHING_FOUND_ERROR
+  NOTHING_FOUND_ERROR,
+  NUMBER_OF_CARDS_TO_SHOW,
+  NUMBER_OF_CARDS_TO_SHOW_MOBILE,
+  SHORT_MOVIE_DURATION
 } from '../../utils/constants.js'
 import moviesApi from '../../utils/MoviesApi';
 
@@ -60,7 +63,6 @@ function App() {
     if (user._id) {
       setIsLoggedIn(true);
       setCurrentUser(user);
-
       return true;
     }
     return false;
@@ -240,8 +242,15 @@ function App() {
 
   // нарезка массива
   const getNumberOfFilmsOnPage = () => {
-    return 7;
+    const windowInnerWidth = window.innerWidth;
+    if (windowInnerWidth <= 767) {
+      return NUMBER_OF_CARDS_TO_SHOW_MOBILE;
+    } 
+    else {
+      return NUMBER_OF_CARDS_TO_SHOW;
+    }    
   }
+
   const handleGetMoreMovies = () => {
     const portion = getPortionOfMovies(moviesListFiltered, moviesListOnScreen.length);
     setMoviesListOnScreen(moviesListOnScreen.concat(portion));
@@ -286,7 +295,7 @@ function App() {
   const searchByShort = (movies, shortFilter) => {
     if (shortFilter === true) {
       return movies.filter((movie) => {
-        return movie.duration <= 40;
+        return movie.duration <= SHORT_MOVIE_DURATION;
       })
     }
     return movies;
@@ -336,8 +345,6 @@ function App() {
 
   const handleSearchMyMovies = (searchParam, shortFilter, allowEmpty = false) => {
     setErrorText(NOTHING_FOUND_ERROR);
-    localStorage.setItem('searchParam', searchParam);
-    localStorage.setItem('shortFilter', shortFilter);
     if (!allowEmpty) {
       if (!checkSearchParam(searchParam)) {
         return;
@@ -374,16 +381,15 @@ function App() {
   React.useEffect(() => {
     setIsReady(false);
     const checkTokenFirst = async () => {
-      await checkToken();
+      return await checkToken();
     };
 
     const getMoviesFirst = async () => {
       await handleGetMyMovies();
     };
 
-    checkTokenFirst();
-    if (isLoggedIn) {
-      getMoviesFirst();
+    if (checkTokenFirst()) {      
+      getMoviesFirst();      
       const films = JSON.parse(localStorage.getItem('moviesListFiltered'));
       if (films) {
         onGetFilteredMovies(films);
@@ -426,7 +432,8 @@ function App() {
                   isLoggedIn={isLoggedIn}
                   isLoading={isLoading}
                   handleDeleteMovie={handleDeleteMovie}
-                  moviesList={myMoviesFiltered}
+                  moviesList={myMovies}
+                  myMoviesFiltered={myMoviesFiltered}
                   handleSearch={handleSearchMyMovies}
                   nothingIsFound={nothingIsFound}
                   onShortsChange={handleChangeShortsMyMovies}

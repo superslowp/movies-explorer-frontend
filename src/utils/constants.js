@@ -9,6 +9,10 @@ export const HEADERS = {
     'Accept': 'application/json'
 }
 
+export const SHORT_MOVIE_DURATION = 40;
+
+export const NUMBER_OF_CARDS_TO_SHOW =  7;
+export const NUMBER_OF_CARDS_TO_SHOW_MOBILE =  5;
 
 export const CONFLICT_ERROR = 'Пользователь с таким email уже существует';
 export const REGISTRATION_ERROR  = 'При регистрации пользователя произошла ошибка';

@@ -26,6 +26,7 @@ const Movies = ({ isLoggedIn,
             <SearchBar
                 handleSearch={handleSearch}
                 onShortsChange={onShortsChange}
+                restoreValues={true}
             />
             {isLoading ?
                 <Preloader /> :
