@@ -47,7 +47,6 @@ function App() {
   const [isError, setIsError] = React.useState(false);
 
   const [myMovies, setMyMovies] = React.useState([]);
-  const [myMoviesFiltered, setMyMoviesFiltered] = React.useState([]);
   const [moviesListFiltered, setMoviesFiltered] = React.useState([]);
   const [moviesListOnScreen, setMoviesListOnScreen] = React.useState([]);
 
@@ -57,22 +56,15 @@ function App() {
   const [errorText, setErrorText] = React.useState(NOTHING_FOUND_ERROR);
   const [isReady, setIsReady] = React.useState(false);
 
-  // функциональность для работы с API
-  const checkToken = async () => {
-    const user = await mainApi.auth();
-    if (user._id) {
-      setIsLoggedIn(true);
-      setCurrentUser(user);
-      return true;
-    }
-    return false;
-  }
-
   const handleLogin = async ({ password, email }) => {
     setIsLoading(true);
     try {
       await mainApi.login(password, email);
-      await checkToken();
+      const user = await mainApi.auth();
+      if (user._id) {
+        setIsLoggedIn(true);
+        setCurrentUser(user);
+      }
       await handleGetMyMovies();
       onGetFilteredMovies(moviesListFiltered);
       setIsLoading(false);
@@ -112,7 +104,6 @@ function App() {
       setPopupMessage('');
       setIsPopupOpen(false);
       setMyMovies([]);
-      setMyMoviesFiltered([]);
       setMoviesListOnScreen([]);
       setNothingIsFound(false);
       navigate("/");
@@ -167,7 +158,6 @@ function App() {
       const res = await mainApi.addMovie(newMovie);
       if (res._id) {
         setMyMovies([...myMovies, res]);
-        setMyMoviesFiltered([...myMoviesFiltered, res]);
         return res;
       }
     } catch (err) {
@@ -178,15 +168,14 @@ function App() {
 
   const handleDeleteMovie = async (_id) => {
     try {
-      await mainApi.deleteMovie(_id);
+      const res = await mainApi.deleteMovie(_id);
+      if (!res) {
+        throw new Error;
+      }
       const newMyMovies = myMovies.filter((movie) => {
         return movie._id !== _id;
       });
-      const newMyMoviesFiltered = myMoviesFiltered.filter((movie) => {
-        return movie._id !== _id;
-      });
       setMyMovies(newMyMovies);
-      setMyMoviesFiltered(newMyMoviesFiltered);
       return true;
     } catch (err) {
       handleError(MOVIE_DELETE_ERROR);
@@ -210,7 +199,6 @@ function App() {
     try {
       const data = await mainApi.getMovies();
       setMyMovies(data);
-      setMyMoviesFiltered(data);
     } catch (err) {
       handleError(MOVIE_GET_ERROR);
       console.log(err);
@@ -245,10 +233,10 @@ function App() {
     const windowInnerWidth = window.innerWidth;
     if (windowInnerWidth <= 767) {
       return NUMBER_OF_CARDS_TO_SHOW_MOBILE;
-    } 
+    }
     else {
       return NUMBER_OF_CARDS_TO_SHOW;
-    }    
+    }
   }
 
   const handleGetMoreMovies = () => {
@@ -343,23 +331,6 @@ function App() {
     setIsLoading(false);
   }
 
-  const handleSearchMyMovies = (searchParam, shortFilter, allowEmpty = false) => {
-    setErrorText(NOTHING_FOUND_ERROR);
-    if (!allowEmpty) {
-      if (!checkSearchParam(searchParam)) {
-        return;
-      }
-    }
-    setNothingIsFound(false);
-    const filteredResult = filterMovies(myMovies, searchParam, shortFilter);
-    setMyMoviesFiltered(filteredResult);
-    checkIfNothingIsFound(filteredResult);
-  }
-
-  const handleChangeShortsMyMovies = (searchParam, shortFilter) => {
-    handleSearchMyMovies(searchParam, shortFilter, true);
-  }
-
   const onGetFilteredMovies = (movies) => {
     const filteredResultWithLikes = populateWithLikes(movies);
     setMoviesFiltered(filteredResultWithLikes);
@@ -380,25 +351,39 @@ function App() {
   // инициализация
   React.useEffect(() => {
     setIsReady(false);
-    const checkTokenFirst = async () => {
-      return await checkToken();
-    };
-
-    const getMoviesFirst = async () => {
-      await handleGetMyMovies();
-    };
-
-    if (checkTokenFirst()) {      
-      getMoviesFirst();      
-      const films = JSON.parse(localStorage.getItem('moviesListFiltered'));
-      if (films) {
-        onGetFilteredMovies(films);
-      }      
-    }
-    setTimeout(() => {
-      setIsReady(true);
-    }, 400);
+    mainApi.auth()
+      .then((user) => {
+        if (user._id) {
+          setIsLoggedIn(true);
+          setCurrentUser(user);
+        } else {
+          setIsLoggedIn(false);
+          setCurrentUser({});
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+      .finally(() => {
+        setTimeout(() => {
+          setIsReady(true)
+        }
+          , 500);
+      });
   }, []);
+
+  // инициализация при логине\разлогине
+  React.useEffect(() => {
+    if (isLoggedIn) {
+      handleGetMyMovies()
+        .then(() => {
+          const films = JSON.parse(localStorage.getItem('moviesListFiltered'));
+          if (films) {
+            onGetFilteredMovies(films);
+          }
+        })
+    }
+  }, [isLoggedIn]);
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
@@ -433,11 +418,8 @@ function App() {
                   isLoading={isLoading}
                   handleDeleteMovie={handleDeleteMovie}
                   moviesList={myMovies}
-                  myMoviesFiltered={myMoviesFiltered}
-                  handleSearch={handleSearchMyMovies}
-                  nothingIsFound={nothingIsFound}
-                  onShortsChange={handleChangeShortsMyMovies}
-                  errorText={errorText}
+                  showPopup={showPopup}
+                  filterMovies={filterMovies}
                 />
               </ProtectedRoute>
             }
