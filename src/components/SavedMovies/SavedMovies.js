@@ -5,7 +5,8 @@ import SearchBar from "../SearchBar/SearchBar";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import Footer from "../Footer/Footer";
 import { EMPTY_SEARCH_MESSAGE, NOTHING_FOUND_ERROR } from "../../utils/constants";
-const SavedMovies = ({ isLoggedIn,
+const SavedMovies = ({
+    isLoggedIn,
     moviesList,
     handleDeleteMovie,
     filterMovies,
@@ -34,9 +35,18 @@ const SavedMovies = ({ isLoggedIn,
         handleSearch(searchParam, shortFilter, true);
     }
 
+    const onDelete = (cardId) => {
+        if (handleDeleteMovie(cardId)) {
+            const newFiltered = myMoviesFiltered.filter((movie) => {
+                return movie._id !== cardId;
+            });
+            setMyMoviesFiltered(newFiltered);
+        }
+    }
+
     React.useEffect(() => {
         setMyMoviesFiltered(moviesList);
-    }, [moviesList]);
+    }, []);
 
     return (
         <>
@@ -50,7 +60,7 @@ const SavedMovies = ({ isLoggedIn,
             <MoviesCardList
                 isSavedMovies={true}
                 moviesList={myMoviesFiltered}
-                handleDeleteMovie={handleDeleteMovie}
+                handleDeleteMovie={onDelete}
                 nothingIsFound={nothingIsFound}
                 errorText={errorText}
             />

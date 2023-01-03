@@ -71,7 +71,6 @@ function App() {
       await handleLogin({ password, email })
       setIsLoading(false);
     } catch (err) {
-      console.log(err);
       if (err.message.includes("Пользователь с таким email уже существует!")) {
         handleError(CONFLICT_ERROR);
         return;
@@ -218,7 +217,7 @@ function App() {
   const searchByTitle = (movies, searchParam) => {
     if (searchParam !== '') {
       return movies.filter((movie) => {
-        return movie.nameRU.toLowerCase().includes(searchParam) || movie.nameEN.toLowerCase().includes(searchParam);
+        return movie.nameRU.toLowerCase().includes(searchParam.toLowerCase()) || movie.nameEN.toLowerCase().includes(searchParam.toLowerCase());
       })
     }
     return movies;

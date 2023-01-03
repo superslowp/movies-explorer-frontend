@@ -7,19 +7,19 @@ const MovieCard = ({ card, isSavedMovies, handleDeleteMovie, handleAddMovie }) =
     const [cardIsLiked, setCardIsLiked] = React.useState(card.isLiked);
     const [cardId, setCardId] = React.useState(card._id);
 
-    const imageURL = isSavedMovies ? card.image : MOVIES_IMAGE_URL+card.image.url;
+    const imageURL = isSavedMovies ? card.image : MOVIES_IMAGE_URL + card.image.url;
 
-    const durationFormatted = `${Math.floor(card.duration / 60 )}ч ${Math.floor(card.duration % 60)}м`;
-    
+    const durationFormatted = `${Math.floor(card.duration / 60)}ч ${Math.floor(card.duration % 60)}м`;
+
     const handleLike = async () => {
         if (card.isLiked) {
             try {
                 if (await handleDeleteMovie(cardId)) {
                     setCardIsLiked(!cardIsLiked);
                 }
-            } catch (err) {                
+            } catch (err) {
             }
-        } else {            
+        } else {
             try {
                 const newCard = await handleAddMovie(card);
                 setCardIsLiked(!cardIsLiked);
@@ -32,7 +32,7 @@ const MovieCard = ({ card, isSavedMovies, handleDeleteMovie, handleAddMovie }) =
 
     const handleDelete = () => {
         handleDeleteMovie(cardId);
-    }  
+    }
 
     return (
         <li className="movie-card" id={card.movieId}>
