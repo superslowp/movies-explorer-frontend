@@ -21,16 +21,11 @@ import {
   MOVIE_ADD_ERROR,
   MOVIE_DELETE_ERROR,
   MOVIE_GET_ERROR,
-  MOVIES_GETLIST_ERROR,
   PROFILE_ERROR_MESSAGE,
   PROFILE_SUCCESS_MESSAGE,
-  EMPTY_SEARCH_MESSAGE,
   MOVIES_IMAGE_URL,
-  API_ERROR,
-  NOTHING_FOUND_ERROR,
-  NUMBER_OF_CARDS_TO_SHOW,
-  NUMBER_OF_CARDS_TO_SHOW_MOBILE,
-  SHORT_MOVIE_DURATION
+  SHORT_MOVIE_DURATION,
+  NOT_AUTHORIZED_TEXT
 } from '../../utils/constants.js'
 import moviesApi from '../../utils/MoviesApi';
 
@@ -47,13 +42,6 @@ function App() {
   const [isError, setIsError] = React.useState(false);
 
   const [myMovies, setMyMovies] = React.useState([]);
-  const [moviesListFiltered, setMoviesFiltered] = React.useState([]);
-  const [moviesListOnScreen, setMoviesListOnScreen] = React.useState([]);
-
-  const [nothingIsFound, setNothingIsFound] = React.useState(false);
-  const [showMore, setShowMore] = React.useState(false);
-
-  const [errorText, setErrorText] = React.useState(NOTHING_FOUND_ERROR);
   const [isReady, setIsReady] = React.useState(false);
 
   const handleLogin = async ({ password, email }) => {
@@ -66,7 +54,7 @@ function App() {
         setCurrentUser(user);
       }
       await handleGetMyMovies();
-      onGetFilteredMovies(moviesListFiltered);
+      //onGetFilteredMovies(moviesListFiltered);
       setIsLoading(false);
     } catch (err) {
       handleError(AUTH_ERROR);
@@ -97,21 +85,22 @@ function App() {
   const handleLogout = async () => {
     try {
       await mainApi.signout();
-      setIsLoggedIn(false);
-      localStorage.clear();
-      setCurrentUser(null);
-      setMoviesFiltered([]);
-      setPopupMessage('');
-      setIsPopupOpen(false);
-      setMyMovies([]);
-      setMoviesListOnScreen([]);
-      setNothingIsFound(false);
-      navigate("/");
+      onLogout();
     } catch (err) {
       handleError(LOGOUT_ERROR);
+      checkIfUnauthorized(err);
       console.log(err);
     }
+  }
 
+  const onLogout = () => {
+    setIsLoggedIn(false);
+    localStorage.clear();
+    setCurrentUser(null);
+    setPopupMessage('');
+    setIsPopupOpen(false);
+    setMyMovies([]);
+    navigate("/");
   }
 
   const handleUpdateUser = async (data) => {
@@ -121,23 +110,9 @@ function App() {
       showPopup(PROFILE_SUCCESS_MESSAGE, false)
     } catch (err) {
       handleError(PROFILE_ERROR_MESSAGE);
+      checkIfUnauthorized(err);
       console.log(err);
     }
-  }
-
-  const populateWithLikes = (movies) => {
-    return movies.map((movie) => {
-      const foundMovie = myMovies.find((myMovie) => {
-        return myMovie.movieId === movie.id
-      });
-      if (foundMovie) {
-        movie.isLiked = true;
-        movie._id = foundMovie._id;
-      } else {
-        movie.isLiked = false;
-      }
-      return movie;
-    })
   }
 
   const handleAddMovie = async (data) => {
@@ -161,7 +136,8 @@ function App() {
         return res;
       }
     } catch (err) {
-      handleError(MOVIE_ADD_ERROR)
+      handleError(MOVIE_ADD_ERROR);
+      checkIfUnauthorized(err);
       console.log(err);
     }
   }
@@ -170,7 +146,7 @@ function App() {
     try {
       const res = await mainApi.deleteMovie(_id);
       if (!res) {
-        throw new Error;
+        throw new Error();
       }
       const newMyMovies = myMovies.filter((movie) => {
         return movie._id !== _id;
@@ -179,6 +155,7 @@ function App() {
       return true;
     } catch (err) {
       handleError(MOVIE_DELETE_ERROR);
+      checkIfUnauthorized(err);
       console.log(err);
       return false;
     }
@@ -186,12 +163,15 @@ function App() {
 
   const handleGetMovies = async () => {
     try {
+      setIsLoading(true);
       const movies = await moviesApi.getMovies();
       localStorage.setItem('beatFilmsList', JSON.stringify(movies))
       return movies;
     } catch (err) {
       console.log(err);
       return false;
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -201,6 +181,7 @@ function App() {
       setMyMovies(data);
     } catch (err) {
       handleError(MOVIE_GET_ERROR);
+      checkIfUnauthorized(err);
       console.log(err);
     }
   }
@@ -224,51 +205,14 @@ function App() {
     }
   }
 
+  const checkIfUnauthorized = (err) => {
+    if (err?.message === NOT_AUTHORIZED_TEXT) {
+      setTimeout(onLogout, 2000);      
+    }
+  }
+
   const handleError = (errText) => {
     showPopup(errText, true)
-  }
-
-  // нарезка массива
-  const getNumberOfFilmsOnPage = () => {
-    const windowInnerWidth = window.innerWidth;
-    if (windowInnerWidth <= 767) {
-      return NUMBER_OF_CARDS_TO_SHOW_MOBILE;
-    }
-    else {
-      return NUMBER_OF_CARDS_TO_SHOW;
-    }
-  }
-
-  const handleGetMoreMovies = () => {
-    const portion = getPortionOfMovies(moviesListFiltered, moviesListOnScreen.length);
-    setMoviesListOnScreen(moviesListOnScreen.concat(portion));
-  }
-
-  const getPortionOfMovies = (movies, startPos) => {
-    return movies.slice(startPos, startPos + getNumberOfFilmsOnPage());
-  }
-
-  const checkShowMore = () => {
-    if (moviesListFiltered.length === moviesListOnScreen.length) {
-      setShowMore(false);
-    } else {
-      setShowMore(true);
-    }
-  }
-
-  // функции для поиска
-  const checkIfNothingIsFound = (movies) => {
-    if (movies.length === 0) {
-      setNothingIsFound(true);
-    }
-  }
-
-  const checkSearchParam = (searchParam) => {
-    if (searchParam === '') {
-      showPopup(EMPTY_SEARCH_MESSAGE, true, true);
-      return false;
-    }
-    return true;
   }
 
   const searchByTitle = (movies, searchParam) => {
@@ -296,57 +240,6 @@ function App() {
     setIsLoading(false);
     return filteredByShort;
   }
-
-  const handleSearch = async (searchParam, shortFilter) => {
-    setErrorText(NOTHING_FOUND_ERROR);
-    localStorage.setItem('searchParam', searchParam);
-    localStorage.setItem('shortFilter', shortFilter);
-    if (!checkSearchParam(searchParam)) {
-      return;
-    }
-    setIsLoading(true);
-    let movies = JSON.parse(localStorage.getItem('beatFilmsList'));
-    if (!movies) {
-      try {
-        movies = await handleGetMovies();
-      } catch (err) {
-        handleError(MOVIES_GETLIST_ERROR);
-        console.log(err);
-        setIsLoading(false);
-        return;
-      }
-    }
-
-    if (!movies) {
-      setErrorText(API_ERROR);
-      setNothingIsFound(true);
-      setIsLoading(false);
-      return;
-    }
-    const filteredResult = filterMovies(movies, searchParam, shortFilter);
-    const filteredResultWithLikes = populateWithLikes(filteredResult);
-    localStorage.setItem('moviesListFiltered', JSON.stringify(filteredResultWithLikes));
-    const moviesToShow = onGetFilteredMovies(filteredResultWithLikes);
-    checkIfNothingIsFound(moviesToShow);
-    setIsLoading(false);
-  }
-
-  const onGetFilteredMovies = (movies) => {
-    const filteredResultWithLikes = populateWithLikes(movies);
-    setMoviesFiltered(filteredResultWithLikes);
-    const moviesToShow = getPortionOfMovies(filteredResultWithLikes, 0);
-    setMoviesListOnScreen(moviesToShow);
-    return moviesToShow;
-  }
-
-  React.useEffect(() => {
-    checkShowMore();
-  }, [moviesListOnScreen.length])
-
-  React.useEffect(() => {
-    populateWithLikes(moviesListFiltered);
-    populateWithLikes(moviesListOnScreen);
-  }, [myMovies.length])
 
   // инициализация
   React.useEffect(() => {
@@ -376,12 +269,6 @@ function App() {
   React.useEffect(() => {
     if (isLoggedIn) {
       handleGetMyMovies()
-        .then(() => {
-          const films = JSON.parse(localStorage.getItem('moviesListFiltered'));
-          if (films) {
-            onGetFilteredMovies(films);
-          }
-        })
     }
   }, [isLoggedIn]);
 
@@ -396,15 +283,13 @@ function App() {
                 <Movies
                   isLoggedIn={isLoggedIn}
                   isLoading={isLoading}
-                  handleAddMovie={handleAddMovie}
                   handleDeleteMovie={handleDeleteMovie}
-                  handleSearch={handleSearch}
-                  moviesList={moviesListOnScreen}
-                  nothingIsFound={nothingIsFound}
-                  showMore={showMore}
-                  handleGetMoreMovies={handleGetMoreMovies}
-                  onShortsChange={handleSearch}
-                  errorText={errorText}
+                  handleAddMovie={handleAddMovie}
+                  handleGetMovies={handleGetMovies}
+                  showPopup={showPopup}
+                  handleError={handleError}
+                  filterMovies={filterMovies}
+                  myMovies={myMovies}
                 />
               </ProtectedRoute>
             }
@@ -415,7 +300,6 @@ function App() {
               <ProtectedRoute isLoggedIn={isLoggedIn}>
                 <SavedMovies
                   isLoggedIn={isLoggedIn}
-                  isLoading={isLoading}
                   handleDeleteMovie={handleDeleteMovie}
                   moviesList={myMovies}
                   showPopup={showPopup}

@@ -9,6 +9,8 @@ export const HEADERS = {
     'Accept': 'application/json'
 }
 
+export const EMAIL_PATTERN = '^([^ ]+@[^ ]+\.[a-z]{2,6}|)$';
+
 export const SHORT_MOVIE_DURATION = 40;
 
 export const NUMBER_OF_CARDS_TO_SHOW =  7;
@@ -28,3 +30,5 @@ export const API_ERROR = "Возможно, проблема с соединен
 export const NOTHING_FOUND_ERROR = "Ничего не найдено";
 
 export const EMPTY_SEARCH_MESSAGE = 'Нужно ввести ключевое слово';
+
+export const NOT_AUTHORIZED_TEXT = 'Не авторизован';

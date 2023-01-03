@@ -6,7 +6,6 @@ import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import Footer from "../Footer/Footer";
 import { EMPTY_SEARCH_MESSAGE, NOTHING_FOUND_ERROR } from "../../utils/constants";
 const SavedMovies = ({ isLoggedIn,
-    isLoading,
     moviesList,
     handleDeleteMovie,
     filterMovies,

@@ -3,6 +3,7 @@ import './Login.css';
 import { useFormAndValidation } from '../../hooks/useFormAndValidation';
 import LoginRegisterForm from '../LoginRegisterForm/LoginRegisterForm';
 import { useNavigate } from "react-router-dom";
+import { EMAIL_PATTERN } from "../../utils/constants";
 
 const Login = ({ isLoggedIn, handleLogin }) => {
 
@@ -47,6 +48,7 @@ const Login = ({ isLoggedIn, handleLogin }) => {
                 id='email'
                 className={`form__input ${errors.email && 'form__input_color_red'}`}
                 value={values.email || ''}
+                pattern={EMAIL_PATTERN}
                 required                
             />
             {!isValid && errors.email && <span className="form__label form__label_type_error">{`${errors.email}`}</span>}
