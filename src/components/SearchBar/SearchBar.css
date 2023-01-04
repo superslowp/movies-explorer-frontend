@@ -1,0 +1,133 @@
+.searchbar {
+    display: flex;
+    flex-direction: column;
+    max-width: 1280px;
+    justify-content: space-between;
+    padding: 70px 70px 48px 70px;
+}
+
+.searchbar__wrapper {
+    display: flex;
+    justify-content: space-between;
+    padding: 0;
+    margin: 0;
+    box-sizing: content-box;
+    border: none;
+}
+
+.searchbar__line {
+    width: auto;
+    border-top: 1px #E8E8E8 solid;
+    margin: 15px 0 29px 0;
+}
+
+.searchbar__input {
+    outline: none;
+    padding: 0;
+    width: 100%;
+    font-weight: 500;
+    font-size: 28px;
+    line-height: 34px;
+    text-align: center;
+    color: #A0A0A0;
+    border: 0;
+    background: no-repeat url('../../images/search-icon.svg');
+    background-size: 46px 34px;
+}
+
+.searchbar__button {
+    padding: 0;
+    margin: 0;
+    min-width: 80px;
+    height: 34px;
+    background: no-repeat url('../../images/find-button.svg');
+    background-position: center;
+    background-size: contain;
+    border: 0;
+    transition: opacity 0.2s ease-in-out;
+    cursor: pointer;
+}
+
+.searchbar__button:hover {
+    opacity: 0.8;
+}
+
+.searchbar__checkbox-wrapper {
+    display: flex;
+    max-width: 1280px;
+    align-self: center;
+    align-items: center;
+}
+
+.searchbar__checkbox-label {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 18px;
+    color: #000000;
+    margin-left: 12px;
+}
+
+.searchbar__checkbox {
+    position: relative;
+    margin: 0;
+    padding: 0;
+    appearance: none;
+    width: 36px;
+    height: 22px;
+    background: #EBEBEB;
+    outline: none;
+    border-radius: 28px;
+    transition-duration: 200ms;
+    cursor: pointer;
+}
+
+.searchbar__checkbox::after {
+    content: '';
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 16px;
+    height: 16px;
+    background: #F5F5F5;
+    border-radius: 50%;
+    border: 1px #FFFFFF solid;
+    transition: left 200ms;
+}
+
+.searchbar__checkbox:checked {
+    box-shadow: transparent 20px 0 0 0 #343434;
+}
+
+.searchbar__checkbox:checked::after {
+    left: 16px;
+    background: #2be080;
+}
+
+@media screen and (max-width: 1279px) {
+    .searchbar {
+        padding: 86px 30px 61px 30px;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .searchbar {
+        padding: 92px 14px 50px 14px;
+    }
+
+    .searchbar__input {
+        font-size: 18px;
+        line-height: 20px;
+        text-align: left;
+        color: #A0A0A0;
+        background: none;
+
+    }
+
+    .searchbar__line {
+        margin: 9px 0 42px 0;
+    }
+
+    .searchbar__checkbox-label {
+        margin-left: 13px;
+    }
+}
